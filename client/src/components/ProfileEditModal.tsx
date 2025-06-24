@@ -8,11 +8,15 @@ interface ProfileEditModalProps {
     profilePicture?: string;
     name: string;
     bio: string;
+    headerText?: string;
+    username?: string;
   };
   onSave: (profileData: {
     profilePicture?: File | string;
     name: string;
     bio: string;
+    headerText: string;
+    username: string;
   }) => Promise<void>;
   isDarkMode: boolean;
 }
@@ -26,6 +30,8 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
 }) => {
   const [name, setName] = useState(currentProfileData.name);
   const [bio, setBio] = useState(currentProfileData.bio);
+  const [headerText, setHeaderText] = useState(currentProfileData.headerText || 'kristinundmauro.de');
+  const [username, setUsername] = useState(currentProfileData.username || 'kristinundmauro');
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(
     currentProfileData.profilePicture || null
@@ -51,7 +57,9 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       await onSave({
         profilePicture: profilePicture || currentProfileData.profilePicture,
         name: name.trim(),
-        bio: bio.trim()
+        bio: bio.trim(),
+        headerText: headerText.trim(),
+        username: username.trim()
       });
       onClose();
     } catch (error) {
@@ -67,6 +75,8 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       // Reset form data
       setName(currentProfileData.name);
       setBio(currentProfileData.bio);
+      setHeaderText(currentProfileData.headerText || 'kristinundmauro.de');
+      setUsername(currentProfileData.username || 'kristinundmauro');
       setProfilePicture(null);
       setProfilePicturePreview(currentProfileData.profilePicture || null);
       onClose();
@@ -158,12 +168,70 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           </div>
         </div>
 
+        {/* Username Section */}
+        <div className="mb-6">
+          <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Titel
+          </label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={isSaving}
+            placeholder="z.B. kristinundmauro"
+            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition-colors duration-300 ${
+              isSaving
+                ? 'cursor-not-allowed opacity-50'
+                : isDarkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+            }`}
+            maxLength={50}
+          />
+          <p className={`text-xs mt-1 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+          }`}>
+            {username.length}/50 Zeichen
+          </p>
+        </div>
+
+        {/* Header Text Section */}
+        <div className="mb-6">
+          <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Galleriename
+          </label>
+          <input
+            type="text"
+            value={headerText}
+            onChange={(e) => setHeaderText(e.target.value)}
+            disabled={isSaving}
+            placeholder="z.B. kristinundmauro.de"
+            className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition-colors duration-300 ${
+              isSaving
+                ? 'cursor-not-allowed opacity-50'
+                : isDarkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+            }`}
+            maxLength={30}
+          />
+          <p className={`text-xs mt-1 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+          }`}>
+            {headerText.length}/30 Zeichen
+          </p>
+        </div>
+
         {/* Name Section */}
         <div className="mb-6">
           <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
           }`}>
-            Name
+            Überschrift
           </label>
           <input
             type="text"
@@ -233,9 +301,9 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           </button>
           <button
             onClick={handleSave}
-            disabled={isSaving || !name.trim()}
+            disabled={isSaving || !name.trim() || !headerText.trim() || !username.trim()}
             className={`flex-1 py-3 px-4 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2 ${
-              isSaving || !name.trim()
+              isSaving || !name.trim() || !headerText.trim() || !username.trim()
                 ? 'bg-gray-400 cursor-not-allowed text-gray-600'
                 : 'bg-pink-600 hover:bg-pink-700 text-white'
             }`}

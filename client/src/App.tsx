@@ -20,7 +20,7 @@ import { PublicRecapPage } from './components/PublicRecapPage';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { useUser } from './hooks/useUser';
 import { useDarkMode } from './hooks/useDarkMode';
-import { MediaItem, Comment, Like } from './types';
+import { MediaItem, Comment, Like, ProfileData } from './types';
 import {
   uploadFiles,
   uploadVideoBlob,
@@ -32,7 +32,8 @@ import {
   loadLikes,
   toggleLike,
   addNote,
-  editNote
+  editNote,
+  loadProfile
 } from './services/firebaseService';
 import { subscribeSiteStatus, SiteStatus } from './services/siteStatusService';
 import {
@@ -48,6 +49,7 @@ import {
 function App() {
   const { userName, deviceId, showNamePrompt, setUserName } = useUser();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
   const [likes, setLikes] = useState<Like[]>([]);
@@ -110,6 +112,12 @@ function App() {
       setSiteStatus(status);
     });
 
+    return unsubscribe;
+  }, []);
+
+  // Load profile data
+  useEffect(() => {
+    const unsubscribe = loadProfile(setProfileData);
     return unsubscribe;
   }, []);
 
@@ -485,7 +493,7 @@ function App() {
             <h1 className={`text-xl font-semibold transition-colors duration-300 ${
               isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
-              👰🤵‍♂️ kristinundmauro
+              {profileData?.username || 'kristinundmauro'}
             </h1>
             <div className="flex items-center gap-4">
               {/* Live User Indicator */}

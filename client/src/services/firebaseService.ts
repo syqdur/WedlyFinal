@@ -432,6 +432,8 @@ export const updateProfile = async (
     profilePicture?: File | string;
     name: string;
     bio: string;
+    headerText: string;
+    username: string;
   },
   userName: string
 ): Promise<void> => {
@@ -450,6 +452,8 @@ export const updateProfile = async (
     const profilePayload = {
       name: profileData.name,
       bio: profileData.bio,
+      headerText: profileData.headerText,
+      username: profileData.username,
       profilePicture: profilePictureUrl,
       updatedAt: new Date().toISOString(),
       updatedBy: userName

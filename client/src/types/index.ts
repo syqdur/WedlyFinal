@@ -73,6 +73,8 @@ export interface ProfileData {
   id: string;
   name: string;
   bio: string;
+  headerText?: string;
+  username?: string;
   profilePicture?: string;
   updatedAt: string;
   updatedBy: string;

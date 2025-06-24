@@ -23,6 +23,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isDarkMode, isAdmi
     profilePicture?: File | string;
     name: string;
     bio: string;
+    headerText: string;
+    username: string;
   }) => {
     if (!userName) return;
     await updateProfile(newProfileData, userName);
@@ -51,7 +53,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isDarkMode, isAdmi
           <h2 className={`text-xl font-semibold transition-colors duration-300 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
           }`}>
-            kristinundmauro.de
+            {profileData?.headerText || 'kristinundmauro.de'}
           </h2>
           <div className={`flex gap-6 mt-2 text-sm transition-colors duration-300 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
@@ -125,8 +127,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isDarkMode, isAdmi
         onClose={() => setShowEditModal(false)}
         currentProfileData={{
           profilePicture: profileData?.profilePicture,
-          name: profileData?.name || 'Kristin & Maurizio',
-          bio: profileData?.bio || 'Wir sagen JA! ✨\n12.07.2025 - Der schönste Tag unseres Lebens 💍\nTeilt eure Lieblingsmomente mit uns! 📸\n#MaurizioUndKristin #Hochzeit2025 #FürImmer'
+          name: profileData?.name || 'Kristin & Maurizio 💕',
+          bio: profileData?.bio || 'Wir sagen JA! ✨\n12.07.2025 - Der schönste Tag unseres Lebens 💍\nTeilt eure Lieblingsmomente mit uns! 📸\n#MaurizioUndKristin #Hochzeit2025 #FürImmer',
+          headerText: profileData?.headerText || 'kristinundmauro.de',
+          username: profileData?.username || 'kristinundmauro'
         }}
         onSave={handleSaveProfile}
         isDarkMode={isDarkMode}

@@ -199,18 +199,29 @@ export const InstagramPost: React.FC<InstagramPostProps> = ({
       {/* Media Content */}
       <div className="relative">
         {item.type === 'video' ? (
-          <video
-            src={item.url}
-            className="w-full aspect-square object-cover"
-            controls
-            preload="metadata"
-            onLoadStart={() => setImageLoading(true)}
-            onLoadedData={() => setImageLoading(false)}
-            onError={() => {
-              setImageLoading(false);
-              setImageError(true);
-            }}
-          />
+          <div className="relative w-full aspect-square">
+            <video
+              src={item.url}
+              className="w-full h-full object-cover"
+              controls
+              preload="metadata"
+              poster=""
+              onLoadStart={() => setImageLoading(true)}
+              onLoadedData={() => setImageLoading(false)}
+              onCanPlayThrough={() => setImageLoading(false)}
+              onError={() => {
+                setImageLoading(false);
+                setImageError(true);
+              }}
+            />
+            {imageLoading && (
+              <div className={`absolute inset-0 flex items-center justify-center transition-colors duration-300 ${
+                isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+              }`}>
+                <div className="w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
+          </div>
         ) : (
           <div className="relative w-full aspect-square">
             {imageLoading && !item.isUnavailable && (
