@@ -1024,7 +1024,7 @@ export const Timeline: React.FC<TimelineProps> = ({ isDarkMode, userName, isAdmi
                                       src={url}
                                       className="w-full h-full object-cover cursor-pointer"
                                       onClick={() => setModalMedia({ url, type: 'video', title: event.title })}
-                                      preload="metadata"
+                                      preload="auto"
                                     />
                                   ) : (
                                     <img
