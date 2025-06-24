@@ -22,7 +22,7 @@ interface TimelineEvent {
   location?: string;
   type: 'first_date' | 'first_kiss' | 'first_vacation' | 'engagement' | 'moving_together' | 'anniversary' | 'custom' | 'other';
   createdBy: string;
-  createdAt: string;
+  createdAt: string; 
   mediaUrls?: string[]; // Array of media URLs
   mediaTypes?: string[]; // Array of media types ('image' or 'video')
   mediaFileNames?: string[]; // For deletion from storage
@@ -1024,7 +1024,7 @@ export const Timeline: React.FC<TimelineProps> = ({ isDarkMode, userName, isAdmi
   <video
     src={url}
     className="w-full h-full object-cover"
-    preload="metadata"
+   preload="auto"
   />
 
   {/* Play Button Overlay */}
