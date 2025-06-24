@@ -1020,12 +1020,26 @@ export const Timeline: React.FC<TimelineProps> = ({ isDarkMode, userName, isAdmi
                               return (
                                 <div key={mediaIndex} className="relative aspect-square rounded-lg overflow-hidden group">
                                   {mediaType === 'video' ? (
-                                    <video
-                                      src={url}
-                                      className="w-full h-full object-cover cursor-pointer"
-                                      onClick={() => setModalMedia({ url, type: 'video', title: event.title })}
-                                      preload="auto"
-                                    />
+                                   <div className="relative w-full h-full cursor-pointer group" onClick={() => setModalMedia({ url, type: 'video', title: event.title })}>
+  <video
+    src={url}
+    className="w-full h-full object-cover"
+    preload="metadata"
+  />
+
+  {/* Play Button Overlay */}
+  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    <div className="bg-black/60 rounded-full p-3">
+      <svg
+        className="w-8 h-8 text-white"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </div>
+  </div>
+</div>
                                    ) : (
                                     <img
                                       src={url}
